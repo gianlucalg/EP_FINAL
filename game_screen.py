@@ -8,7 +8,7 @@ from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, BLACK, YELLOW, RED,
 # Carrega todos os assets uma vez só.
 def load_assets(img_dir, snd_dir):
     assets = {}
-    assets["player_img"] = pygame.image.load(path.join(img_dir, "player.png")).convert()
+    #assets["player_img"] = pygame.image.load(path.join(img_dir, "player.png")).convert()
     assets["arrow_green_up_img"] = pygame.image.load(path.join(img_dir, "arrow_green_up.png")).convert()
     assets["arrow_green_down_img"] = pygame.image.load(path.join(img_dir, "arrow_green_down.png")).convert()
     assets["arrow_green_left_img"] = pygame.image.load(path.join(img_dir, "arrow_green_left.png")).convert()
@@ -17,49 +17,48 @@ def load_assets(img_dir, snd_dir):
     assets["arrow_red_down_img"] = pygame.image.load(path.join(img_dir, "arrow_red_down.png")).convert()
     assets["arrow_red_left_img"] = pygame.image.load(path.join(img_dir, "arrow_red_left.png")).convert()
     assets["arrow_red_right_img"] = pygame.image.load(path.join(img_dir, "arrow_red_right.png")).convert()
-    assets["background"] = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
-    assets["jump_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'jump_sound.wav'))
+    #assets["background"] = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+    #assets["jump_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'jump_sound.wav'))
 
     return assets
 
 assets = load_assets(img_dir, snd_dir)
 
 # Classe Jogador que representa o personagem
-class Player(pygame.sprite.Sprite):
-
-    def __init__(self, player_img):
-        
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        self.image = player_img
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH -8
-        self.rect.bottom = HEIGHT / 2
-        
-        # Velocidade da nave
-        self.speedx = 0
+#class Player(pygame.sprite.Sprite):
+#
+#    def __init__(self, player_img):
+#        
+#        pygame.sprite.Sprite.__init__(self)
+#        
+#        # Carregando a imagem de fundo.
+#        self.image = player_img
+#        
+#        # Diminuindo o tamanho da imagem.
+#        self.image = pygame.transform.scale(player_img, (50, 38))
+#        
+#        # Detalhes sobre o posicionamento.
+#        self.rect = self.image.get_rect()
+#        
+#        # Centraliza embaixo da tela.
+#        self.rect.centerx = WIDTH -8
+#        self.rect.bottom = HEIGHT / 2
+#        
+#        # Velocidade da nave
+#        self.speedx = 0
         
     
     # Metodo que atualiza a posição do personagem
-    def update(self):
-        self.rect.x += self.speedx
-        
-        # Mantem dentro da tela
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
+#    def update(self):
+#        self.rect.x += self.speedx
+#        
+#        # Mantem dentro da tela
+#        if self.rect.right > WIDTH:
+#            self.rect.right = WIDTH
+#        if self.rect.left < 0:
+#            self.rect.left = 0
                     
-        
-            
+                
 class Arrow(pygame.sprite.Sprite):
 
     def __init__(self, x, y, arrow_img):
@@ -67,22 +66,20 @@ class Arrow(pygame.sprite.Sprite):
 
         #Escolhe imagem do ícone da seta que vai aparecer.
         self.img_lib = []
-        self.img_lib.append("arrow_green_up_img","arrow_green_down_img","arrow_green_left_img","arrow_green_right_img")
-        self.img_lib.append("arrow_red_up_img","arrow_red_down_img","arrow_red_left_img","arrow_red_right_img")
-        self.img_lib[1] = assets["arrow_green_up_img"]
-        self.img_lib[2] = assets["arrow_green_down_img"]
-        self.img_lib[3] = assets["arrow_green_left_img"]
-        self.img_lib[4] = assets["arrow_green_right_img"]
-        self.img_lib[5] = assets["arrow_red_up_img"]
-        self.img_lib[6] = assets["arrow_red_down_img"]
-        self.img_lib[7] = assets["arrow_red_left_img"]
-        self.img_lib[8] = assets["arrow_red_right_img"]
+        self.img_lib.append(assets["arrow_green_up_img"])
+        self.img_lib.append(assets["arrow_green_down_img"])
+        self.img_lib.append(assets["arrw_green_left_img"])
+        self.img_lib.append(assets["arrow_green_right_img"])
+        self.img_lib.append(assets["arrow_red_up_img"])
+        self.img_lib.append(assets["arrow_red_down_img"])
+        self.img_lib.append(assets["arrow_red_left_img"])
+        self.img_lib.append(assets["arrow_red_right_img"])
 
         self.change_arrow()
 
     def change_arrow(self):
-        index = random.randint(0,8)
-        self.image = pygame.transform.scale(self.img_lib[index], (50, 38))
+        arrow = random.randint(len(self.img_lib))
+        self.image = pygame.transform.scale(self.img_lib[arrow], (50, 38))
 
         self.rect = self.image.get_rect()
         
@@ -98,10 +95,9 @@ class Arrow(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-        
 
 
-
+'''
 def game_screen(screen):
     assets = load_assets(img_dir, snd_dir, fnt_dir)
 
@@ -151,7 +147,7 @@ def game_screen(screen):
                 if event.type == pygame.KEYDOWN:
                     # Verifica se a tecla apertada corresponde à seta mostrada na tela.
 
-                    event.key == pygame.K_LEFT and 
+                    if event.key == pygame.K_LEFT and arrow == 
 
 
                     event.key == pygame.K_RIGHT
@@ -212,3 +208,4 @@ def game_screen(screen):
         pygame.display.flip()
 
     return QUIT
+    '''
