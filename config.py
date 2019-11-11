@@ -8,7 +8,7 @@ fnt_dir = path.join(path.dirname(__file__), 'font')
 
 WIDTH = 480 # Largura da tela
 HEIGHT = 600 # Altura da tela
-FPS = 60 # Frames por segundo
+FPS = 120 # Frames por segundo
 
 
 WHITE = (255, 255, 255)

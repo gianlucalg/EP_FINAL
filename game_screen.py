@@ -8,7 +8,7 @@ from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, BLACK, YELLOW, RED,
 # Carrega todos os assets uma vez só.
 def load_assets(img_dir, snd_dir):
     assets = {}
-    #assets["player_img"] = pygame.image.load(path.join(img_dir, "player.png")).convert()
+    assets["player_img"] = pygame.image.load(path.join(img_dir, "player.png")).convert()
     assets["arrow_green_up_img"] = pygame.image.load(path.join(img_dir, "arrow_green_up.png")).convert()
     assets["arrow_green_down_img"] = pygame.image.load(path.join(img_dir, "arrow_green_down.png")).convert()
     assets["arrow_green_left_img"] = pygame.image.load(path.join(img_dir, "arrow_green_left.png")).convert()
@@ -17,48 +17,49 @@ def load_assets(img_dir, snd_dir):
     assets["arrow_red_down_img"] = pygame.image.load(path.join(img_dir, "arrow_red_down.png")).convert()
     assets["arrow_red_left_img"] = pygame.image.load(path.join(img_dir, "arrow_red_left.png")).convert()
     assets["arrow_red_right_img"] = pygame.image.load(path.join(img_dir, "arrow_red_right.png")).convert()
-    #assets["background"] = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
-    #assets["jump_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'jump_sound.wav'))
+    assets["background"] = pygame.image.load(path.join(img_dir, 'starfield.png')).convert()
+    assets["jump_sound"] = pygame.mixer.Sound(path.join(snd_dir, 'jump_sound.wav'))
 
     return assets
 
 assets = load_assets(img_dir, snd_dir)
 
 # Classe Jogador que representa o personagem
-#class Player(pygame.sprite.Sprite):
-#
-#    def __init__(self, player_img):
-#        
-#        pygame.sprite.Sprite.__init__(self)
-#        
-#        # Carregando a imagem de fundo.
-#        self.image = player_img
-#        
-#        # Diminuindo o tamanho da imagem.
-#        self.image = pygame.transform.scale(player_img, (50, 38))
-#        
-#        # Detalhes sobre o posicionamento.
-#        self.rect = self.image.get_rect()
-#        
-#        # Centraliza embaixo da tela.
-#        self.rect.centerx = WIDTH -8
-#        self.rect.bottom = HEIGHT / 2
-#        
-#        # Velocidade da nave
-#        self.speedx = 0
+class Player(pygame.sprite.Sprite):
+
+    def __init__(self, player_img):
+        
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        self.image = player_img
+        
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(player_img, (50, 38))
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+        # Centraliza embaixo da tela.
+        self.rect.centerx = WIDTH -8
+        self.rect.bottom = HEIGHT / 2
+        
+        # Velocidade da nave
+        self.speedx = 0
         
     
     # Metodo que atualiza a posição do personagem
-#    def update(self):
-#        self.rect.x += self.speedx
-#        
-#        # Mantem dentro da tela
-#        if self.rect.right > WIDTH:
-#            self.rect.right = WIDTH
-#        if self.rect.left < 0:
-#            self.rect.left = 0
+    def update(self):
+        self.rect.x += self.speedx
+        
+        # Mantem dentro da tela
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
                     
-                
+        
+            
 class Arrow(pygame.sprite.Sprite):
 
     def __init__(self, x, y, arrow_img):
@@ -68,12 +69,12 @@ class Arrow(pygame.sprite.Sprite):
         self.img_lib = []
         self.img_lib.append(assets["arrow_green_up_img"])
         self.img_lib.append(assets["arrow_green_down_img"])
-        self.img_lib.append(assets["arrw_green_left_img"])
-        self.img_lib.append(assets["arrow_green_right_img"])
-        self.img_lib.append(assets["arrow_red_up_img"])
-        self.img_lib.append(assets["arrow_red_down_img"])
-        self.img_lib.append(assets["arrow_red_left_img"])
-        self.img_lib.append(assets["arrow_red_right_img"])
+        self.img_lib.append(assets["w_green_left_img"])
+        self.img_lib.append(assets["w_green_right_img"])
+        self.img_lib.append(assets["w_red_up_img"])
+        self.img_lib.append(assets["w_red_down_img"])
+        self.img_lib.append(assets["w_red_left_img"])
+        self.img_lib.append(assets["w_red_right_img"])
 
         self.change_arrow()
 
@@ -95,9 +96,10 @@ class Arrow(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+        
 
 
-'''
+
 def game_screen(screen):
     assets = load_assets(img_dir, snd_dir, fnt_dir)
 
@@ -118,7 +120,7 @@ def game_screen(screen):
 
     # Carrega a fonte para desenhar o score.
     score_font = assets["score_font"]
-
+'''
     # Loop principal.
     pygame.mixer.music.play(loops=-1)
 
@@ -136,6 +138,10 @@ def game_screen(screen):
         clock.tick(FPS)
         
         if state == PLAYING:
+
+
+
+
             # Processa os eventos (mouse, teclado, botão, etc).
             for event in pygame.event.get():
                 
@@ -147,7 +153,7 @@ def game_screen(screen):
                 if event.type == pygame.KEYDOWN:
                     # Verifica se a tecla apertada corresponde à seta mostrada na tela.
 
-                    if event.key == pygame.K_LEFT and arrow == 
+                    if event.key == pygame.K_LEFT and arrow == img_lib["w_green_left_img"]
 
 
                     event.key == pygame.K_RIGHT
@@ -164,19 +170,12 @@ def game_screen(screen):
                     
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
-        all_sprites.update()     
+        all_sprites.update() 
+
+        TIME += 1     
 
 
-                # No lugar do meteoro antigo, adicionar uma explosão.
-                explosao = Explosion(hit.rect.center, assets["explosion_anim"])
-                all_sprites.add(explosao)
 
-                # Ganhou pontos!
-                score += 100
-            
-            # Verifica se houve colisão entre nave e me
-
-            
         elif state == EXPLODING:
             now = pygame.time.get_ticks()
             if now - explosion_tick > explosion_duration:
@@ -208,4 +207,3 @@ def game_screen(screen):
         pygame.display.flip()
 
     return QUIT
-    '''
