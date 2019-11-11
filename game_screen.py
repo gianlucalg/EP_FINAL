@@ -133,7 +133,7 @@ def game_screen(screen):
     DONE = 2
 
     state = PLAYING
-    
+
     while state != DONE:
         
         # Ajusta a velocidade do jogo.
@@ -149,17 +149,14 @@ def game_screen(screen):
                 
                 # Verifica se apertou alguma tecla.
                 if event.type == pygame.KEYDOWN:
-                    # Dependendo da tecla, altera a velocidade.
-                    if event.key == pygame.K_LEFT:
-                        player.speedx = -8
-                    if event.key == pygame.K_RIGHT:
-                        player.speedx = 8
-                    # Se for um espaço atira!
-                    if event.key == pygame.K_SPACE:
-                        bullet = Bullet(player.rect.centerx, player.rect.top, assets["bullet_img"])
-                        all_sprites.add(bullet)
-                        bullets.add(bullet)
-                        pew_sound.play()
+                    # Verifica se a tecla apertada corresponde à seta mostrada na tela.
+
+                    event.key == pygame.K_LEFT and 
+
+
+                    event.key == pygame.K_RIGHT
+
+
                         
                 # Verifica se soltou alguma tecla.
                 if event.type == pygame.KEYUP:
@@ -171,17 +168,8 @@ def game_screen(screen):
                     
         # Depois de processar os eventos.
         # Atualiza a acao de cada sprite.
-        all_sprites.update()
-        
-        if state == PLAYING:
-            # Verifica se houve colisão entre tiro e meteoro
-            hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-            for hit in hits: # Pode haver mais de um
-                # O meteoro e destruido e precisa ser recriado
-                destroy_sound.play()
-                m = Mob(assets["mob_img"]) 
-                all_sprites.add(m)
-                mobs.add(m)
+        all_sprites.update()     
+
 
                 # No lugar do meteoro antigo, adicionar uma explosão.
                 explosao = Explosion(hit.rect.center, assets["explosion_anim"])
@@ -190,18 +178,8 @@ def game_screen(screen):
                 # Ganhou pontos!
                 score += 100
             
-            # Verifica se houve colisão entre nave e meteoro
-            hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
-            if hits:
-                # Toca o som da colisão
-                boom_sound.play()
-                player.kill()
-                lives -= 1
-                explosao = Explosion(player.rect.center, assets["explosion_anim"])
-                all_sprites.add(explosao)
-                state = EXPLODING
-                explosion_tick = pygame.time.get_ticks()
-                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+            # Verifica se houve colisão entre nave e me
+
             
         elif state == EXPLODING:
             now = pygame.time.get_ticks()
