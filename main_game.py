@@ -109,8 +109,7 @@ def game_screen(screen):
         screen.fill(BLACK)
         screen.blit(background, background_rect)
 
-        pygame.display.flip()
-        
+        pygame.display.flip()       
         
             
       #all_arrows.draw(screen)
