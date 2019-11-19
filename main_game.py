@@ -107,13 +107,14 @@ def game_screen(screen):
                 
                 
                 
-        
+            # A cada loop, redesenha o fundo e os sprites
 #            screen.fill(BLACK)
 #            screen.blit(background, background_rect)
-#    
+            
+            # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()       
             
-                
+            # Desenha as setas na tela.    
             all_arrows.draw(screen)
             
     
@@ -140,13 +141,6 @@ def game_screen(screen):
 
                     
                     
-#                    
-#
-#                
-#
-#        # A cada loop, redesenha o fundo e os sprites
-#        screen.fill(BLACK)
-#        screen.blit(background, background_rect)
 #    
 #        # Desenha o score
 #        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
@@ -159,9 +153,6 @@ def game_screen(screen):
 #        text_rect = text_surface.get_rect()
 #        text_rect.bottomleft = (10, HEIGHT - 10)
 #        screen.blit(text_surface, text_rect)
-#        
-#        # Depois de desenhar tudo, inverte o display.
-#        pygame.display.flip()
 #    
 #    return QUIT
 game_screen(screen)
