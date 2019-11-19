@@ -54,6 +54,9 @@ class Arrow(pygame.sprite.Sprite):
 
     def __init__(self, img):
         pygame.sprite.Sprite.__init__(self)
+        
+        #Atributo da classe arrow.
+        self.direction = " "
 
         #Escolhe imagem do ícone da seta que vai aparecer.
         self.image = pygame.transform.scale(img, (50, 38))

@@ -74,7 +74,9 @@ def game_screen(screen):
     # Cria o personagem. O construtor será chamado automaticamente.
     player = Player(assets["player_img"])
 
-    directions = ["arrow_red_up_img", "arrow_red_down_img", 'arrow_red_left_img', 'arrow_red_right_img', 'arrow_green_up_img', 'arrow_green_down_img', 'arrow_green_left_img', 'arrow_green_right_img']
+    directions = {"arrow_red_up_img":"down",  "arrow_red_down_img":"up", 'arrow_red_left_img':"right",
+                  'arrow_red_right_img':"left", 'arrow_green_up_img':"up",'arrow_green_down_img':"down",
+                  'arrow_green_left_img':"left",'arrow_green_right_img':"right"}
 
     PLAYING = 0
     ERROR = 1
@@ -100,9 +102,11 @@ def game_screen(screen):
             # a cada segundo, cria uma arrow.
             if TIME % 30*FPS == 0:
                                 
-                img = assets[random.choice(directions)]               
+                img = random.choice(list(directions.keys()))
                 
-                arrow = Arrow(img)  
+                
+                arrow = Arrow(assets[img])
+                arrow.direction = directions[img]
                 all_arrows.add(arrow)
             
               
@@ -139,8 +143,41 @@ def game_screen(screen):
                     
                     # Verifica se apertou alguma tecla.
                     if event.type == pygame.KEYDOWN:
+                        direct = all_arrows.sprites()[0].direction
                         if event.key == pygame.K_d:
-                            pass
+                            if direct == "right":
+                                all_arrows.remove(all_arrows.sprites()[0])
+                            else:
+                                state = ERROR
+                                return
+                    
+                    
+                        direct = all_arrows.sprites()[0].direction
+                        if event.key == pygame.K_a:
+                            if direct == "left":
+                                all_arrows.remove(all_arrows.sprites()[0])
+                            else:
+                                state = ERROR
+                                return
+                            
+                    
+                        direct = all_arrows.sprites()[0].direction
+                        if event.key == pygame.K_w:
+                            if direct == "up":
+                                all_arrows.remove(all_arrows.sprites()[0])
+                            else:
+                                state = ERROR
+                                return
+                            
+                    
+                        direct = all_arrows.sprites()[0].direction
+                        if event.key == pygame.K_s:
+                            if direct == "down":
+                                all_arrows.remove(all_arrows.sprites()[0])
+                            else:
+                                state = ERROR
+                                return
+                            
                             
                         
 
