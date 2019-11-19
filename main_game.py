@@ -98,24 +98,29 @@ def game_screen(screen):
             # Processa os eventos (mouse, teclado, botão, etc).
             
             # a cada segundo, cria uma arrow.
-            if TIME % 25*FPS == 0:
+            if TIME % 30*FPS == 0:
                                 
                 img = assets[random.choice(directions)]               
                 
                 arrow = Arrow(img)  
                 all_arrows.add(arrow)
+            
+              
                 
-                
-                
+            
+            screen.fill(BLACK)
+            
             # A cada loop, redesenha o fundo e os sprites
-#            screen.fill(BLACK)
-#            screen.blit(background, background_rect)
+           
+            screen.blit(background, background_rect)
+            
+            # Desenha as setas na tela.    
+            all_arrows.draw(screen) 
             
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()       
             
-            # Desenha as setas na tela.    
-            all_arrows.draw(screen)
+            
             
     
                 
