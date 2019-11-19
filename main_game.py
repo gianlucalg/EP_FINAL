@@ -74,7 +74,7 @@ def game_screen(screen):
     # Cria o personagem. O construtor será chamado automaticamente.
     player = Player(assets["player_img"])
 
-    directions = ['arrow_red_up_img', 'arrow_red_down_img', 'arrow_red_left_img', 'arrow_red_right_img', 'arrow_green_up_img', 'arrow_green_down_img', 'arrow_green_left_img', 'arrow_green_right_img']
+    directions = ["arrow_red_up_img", "arrow_red_down_img", 'arrow_red_left_img', 'arrow_red_right_img', 'arrow_green_up_img', 'arrow_green_down_img', 'arrow_green_left_img', 'arrow_green_right_img']
 
     PLAYING = 0
     ERROR = 1
@@ -85,9 +85,11 @@ def game_screen(screen):
     
     all_arrows = pygame.sprite.Group()
 
-    while state != DONE:
+    while state != DONE and state != ERROR:
         
         print(TIME)
+        
+        TIME+=1
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
@@ -96,37 +98,48 @@ def game_screen(screen):
             # Processa os eventos (mouse, teclado, botão, etc).
             
             # a cada segundo, cria uma arrow.
-            if TIME % 1*FPS == 0:
+            if TIME % 25*FPS == 0:
                                 
                 img = assets[random.choice(directions)]               
                 
                 arrow = Arrow(img)  
                 all_arrows.add(arrow)
                 
-                TIME = 0
                 
-        TIME+=1
-        screen.fill(BLACK)
-        screen.blit(background, background_rect)
+                
+        
+#            screen.fill(BLACK)
+#            screen.blit(background, background_rect)
+#    
+            pygame.display.flip()       
+            
+                
+            all_arrows.draw(screen)
+            
+    
+                
+            keys = pygame.key.get_pressed()  # verifica se alguma tecla foi clicada
+            #Ajusta a velocidade do jogo.
+            for event in pygame.event.get():
+                    print("OI")
+                    
+                    # Verifica se foi fechado.
+                    if event.type == pygame.QUIT:
+                        state = ERROR
+                        return
+                    
+                    
+                
+                    
+                    # Verifica se apertou alguma tecla.
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_d:
+                            pass
+                            
+                        
 
-        pygame.display.flip()       
-        
-            
-      #all_arrows.draw(screen)
-        
-game_screen(screen)
-            
-#            for event in pygame.event.get():
-#                
-#                # Verifica se foi fechado.
-#                if event.type == pygame.QUIT:
-#                    state = ERROR
-#                
-#                
-#            
-#                
-#                # Verifica se apertou alguma tecla.
-#                if event.type == pygame.KEYDOWN:
+                    
+                    
 #                    
 #
 #                
@@ -151,3 +164,4 @@ game_screen(screen)
 #        pygame.display.flip()
 #    
 #    return QUIT
+game_screen(screen)

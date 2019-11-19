@@ -61,7 +61,7 @@ class Arrow(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         self.rect.centerx = WIDTH / 2
-        self.rect.bottom = HEIGHT - 10
+        self.rect.bottom = HEIGHT / 2 - 10
         
 
       
