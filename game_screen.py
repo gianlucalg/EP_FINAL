@@ -35,7 +35,7 @@ class Player(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image = pygame.transform.scale(player_img, (60, 58))
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -44,8 +44,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH -60
         self.rect.bottom = HEIGHT / 2
         
-        # Velocidade da nave
+        # Velocidade
         self.speedx = 0
+        
+        
         
 
                     
