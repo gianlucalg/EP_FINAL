@@ -139,6 +139,7 @@ def game_screen(screen):
 
 
 
+
     # Cria o personagem. O construtor será chamado automaticamente.
     player = Player(assets["player_img"])
     player_group = pygame.sprite.Group()
