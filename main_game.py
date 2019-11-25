@@ -5,7 +5,7 @@ import os
 from os import path
 from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, FPS, QUIT, BLACK
 from game_screen import load_assets
-from game_screen import Arrow, Player
+from game_screen import Arrow, Player, Background
 import random
 
 
@@ -24,6 +24,12 @@ def events():
         
 
 arrows_list = ["arrow_green_up_img","arrow_green_down_img","arrow_green_left_img","arrow_green_right_img","arrow_red_up_img","arrow_red_down_img","arrow_red_left_img","arrow_red_right_img"]
+
+all_backgrounds = pygame.sprite.Group()
+
+#for i in range((HEIGHT+HEIGHT)/HEIGHT):
+#    for j in range((WIDTH + WIDTH)/WIDTH):
+#        all_backgrounds.add(Background(HEIGHT*i,WIDTH*j))
 
 
 '''        
@@ -62,6 +68,11 @@ while True:
 '''
 
 def game_screen(screen):
+    
+    all_backgrounds.update(pygame.cam)
+
+    all_backgrounds.draw(screen)
+    
     assets = load_assets(img_dir, snd_dir, fnt_dir)
 
     # Variável para o ajuste de velocidade
@@ -88,9 +99,6 @@ def game_screen(screen):
     all_arrows = pygame.sprite.Group()
 
     while state != DONE and state != ERROR:
-        
-        print(TIME)
-        
         TIME+=1
         
         # Ajusta a velocidade do jogo.
@@ -100,17 +108,13 @@ def game_screen(screen):
             # Processa os eventos (mouse, teclado, botão, etc).
             
             # a cada segundo, cria uma arrow.
-            if TIME % 30*FPS == 0:
+            if TIME % 120*FPS == 0:
                                 
                 img = random.choice(list(directions.keys()))
-                
                 
                 arrow = Arrow(assets[img])
                 arrow.direction = directions[img]
                 all_arrows.add(arrow)
-            
-              
-                
             
             screen.fill(BLACK)
             
@@ -123,78 +127,48 @@ def game_screen(screen):
             
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()       
-            
-            
-            
-    
                 
             keys = pygame.key.get_pressed()  # verifica se alguma tecla foi clicada
             #Ajusta a velocidade do jogo.
             for event in pygame.event.get():
-                    print("OI")
+                    # print("OI")
                     
                     # Verifica se foi fechado.
                     if event.type == pygame.QUIT:
                         state = ERROR
                         return
                     
-                    
-                
-                    
                     # Verifica se apertou alguma tecla.
                     if event.type == pygame.KEYDOWN:
-                        direct = all_arrows.sprites()[0].direction
-                        if event.key == pygame.K_d:
-                            if direct == "right":
-                                all_arrows.remove(all_arrows.sprites()[0])
-                            else:
-                                state = ERROR
-                                return
-                    
-                    
-                        direct = all_arrows.sprites()[0].direction
-                        if event.key == pygame.K_a:
-                            if direct == "left":
-                                all_arrows.remove(all_arrows.sprites()[0])
-                            else:
-                                state = ERROR
-                                return
-                            
-                    
-                        direct = all_arrows.sprites()[0].direction
-                        if event.key == pygame.K_w:
-                            if direct == "up":
-                                all_arrows.remove(all_arrows.sprites()[0])
-                            else:
-                                state = ERROR
-                                return
-                            
-                    
-                        direct = all_arrows.sprites()[0].direction
-                        if event.key == pygame.K_s:
-                            if direct == "down":
-                                all_arrows.remove(all_arrows.sprites()[0])
-                            else:
-                                state = ERROR
-                                return
-                            
-                            
+                        for arrow in all_arrows:
+                            direct = arrow.direction
+                            if event.key == pygame.K_d:
+                                if direct == "right":
+                                    all_arrows.remove(arrow)
+                                else:
+                                    state = ERROR
+                                    return
                         
+                            if event.key == pygame.K_a:
+                                if direct == "left":
+                                    all_arrows.remove(arrow)
+                                else:
+                                    state = ERROR
+                                    return
+                        
+                            if event.key == pygame.K_w:
+                                if direct == "up":
+                                    all_arrows.remove(arrow)
+                                else:
+                                    state = ERROR
+                                    return
+                        
+                            if event.key == pygame.K_s:
+                                if direct == "down":
+                                    all_arrows.remove(arrow)
+                                else:
+                                    state = ERROR
+                                    return
+                    
 
-                    
-                    
-#    
-#        # Desenha o score
-#        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
-#        text_rect = text_surface.get_rect()
-#        text_rect.midtop = (WIDTH / 2,  10)
-#        screen.blit(text_surface, text_rect)
-#    
-#        # Desenha as vidas
-#        text_surface = score_font.render(chr(9829) * lives, True, RED)
-#        text_rect = text_surface.get_rect()
-#        text_rect.bottomleft = (10, HEIGHT - 10)
-#        screen.blit(text_surface, text_rect)
-#    
-#    return QUIT
 game_screen(screen)

@@ -1,12 +1,13 @@
 import pygame
-import random
+#import random
+#from main_game import screen
 from os import path
 from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, BLACK, YELLOW, RED, FPS, QUIT
 pygame.init()
 
 
 # Carrega todos os assets uma vez só.
-def load_assets(img_dir, snd_dir,fnt_dir = ''):
+def load_assets():
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "player.png")).convert()
     assets["arrow_green_up_img"] = pygame.image.load(path.join(img_dir, "arrow_green_up.png")).convert()
@@ -66,6 +67,24 @@ class Arrow(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT / 2 - 10
         
+        
+class Background(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load('img/background.png').convert()
+        self.x = x
+        self.y = y
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = self.x, self.y   
+    
+    def update(self,cam):
+        self.rect.left = self.y + (0.2*cam.state.left)
+        self.rect.top = self.x + (0.2*cam.state.top)
+        
+
+
+        
+
 
       
 
