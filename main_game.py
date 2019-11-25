@@ -31,7 +31,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     else:
         pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
 
-    smallText = pygame.font.SysFont("comicsansms",20)
+    smallText = pygame.font.SysFont('freesansbold.ttf',20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     gameDisplay.blit(textSurf, textRect)
@@ -78,7 +78,34 @@ def game_intro():
         clock.tick(15)
         
         
+def crash():    
+    
+    gameDisplay.fill(BLACK)
+    
+    largeText = pygame.font.SysFont('freesansbold.ttf',90)
+    TextSurf, TextRect = text_objects("GAME OVER", largeText)
+    TextRect.center = ((WIDTH/2),(HEIGHT/2))
+    gameDisplay.blit(TextSurf, TextRect)
+    
+    gameDisplay.blit(TextSurf, TextRect)
+    
+
+    while True:
         
+        
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        
+
+        button("Play Again",90,450,100,50,GREEN,B_GREEN,game_screen)
+        button("Quit",291,450,100,50,RED,B_RED,quitgame)
+
+        pygame.display.update()
+        clock.tick(15)         
         
         
         
@@ -92,41 +119,6 @@ def events():
             
 arrows_list = ["arrow_green_up_img","arrow_green_down_img","arrow_green_left_img","arrow_green_right_img","arrow_red_up_img","arrow_red_down_img","arrow_red_left_img","arrow_red_right_img"]
 
-
-'''        
-#Definir o display
-    
-#W, H = 576, 1024
-#HW, HH = W / 2, H / 2
-#AREA = W * H
-
-#copiei essa linha de um vid n sei oq faz xD
-#os.environ["n sei"] = "50,50"
-
-#SET DO PYGAME
-#personagem = pygame.image.load("img/a.png")
-#pygame.init()
-#CLOCK = pygame.time.Clock()
-#DS = pygame.display.set_mode((W, H))
-#pygame.display.set_caption("NOME DO JOGO")
-#x = 0
-
-#main loop
-while True:
-    events()
-    
-    rel_x = x % bg.get_rect().width
-    DS.blit(bg, (0, rel_x - bg.get_rect().width))
-    DS.blit(personagem, (0,100))
-    if rel_x < W:
-        DS.blit(bg, (0,rel_x))
-    
-    x += 2
-    
-    pygame.display.update()
-    CLOCK.tick(FPS)
-    
-'''
 
 
 def game_screen(screen):
@@ -220,6 +212,7 @@ def game_screen(screen):
                                     acertou = True
                                 else:
                                     state = ERROR
+                                    crash()
                                     return
                         
                             if event.key == pygame.K_a:
@@ -228,6 +221,7 @@ def game_screen(screen):
                                     acertou = True                                
                                 else:
                                     state = ERROR
+                                    crash()
                                     return
                         
                             if event.key == pygame.K_w:
@@ -236,6 +230,7 @@ def game_screen(screen):
                                     acertou = True                                
                                 else:
                                     state = ERROR
+                                    crash()
                                     return
                         
                             if event.key == pygame.K_s:
@@ -244,7 +239,9 @@ def game_screen(screen):
                                     acertou = True                                
                                 else:
                                     state = ERROR
+                                    crash()
                                     return
+                                
                         for back in all_backs:
                             if acertou:
                                 back.move()
@@ -260,10 +257,10 @@ def game_screen(screen):
 #        screen.blit(text_surface, text_rect)
 ##    
         # Desenha as vidas
-        text_surface = score_font.render(chr(9829) * lives, True, RED)
-        text_rect = text_surface.get_rect()
-        text_rect.bottomleft = (10, HEIGHT - 10)
-        screen.blit(text_surface, text_rect)
+#        text_surface = score_font.render(chr(9829) * lives, True, RED)
+#        text_rect = text_surface.get_rect()
+#        text_rect.bottomleft = (10, HEIGHT - 10)
+#        screen.blit(text_surface, text_rect)
 #    
 #    return QUIT
                                 
