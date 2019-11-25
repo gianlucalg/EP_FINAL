@@ -195,5 +195,5 @@ def game_screen(screen):
 #        text_rect.bottomleft = (10, HEIGHT - 10)
 #        screen.blit(text_surface, text_rect)
 #    
-    return QUIT
+#    return QUIT
 game_screen(screen)
