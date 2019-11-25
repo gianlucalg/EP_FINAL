@@ -3,17 +3,86 @@ from pygame.locals import *
 import sys
 import os
 from os import path
-from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, FPS, QUIT, BLACK
+from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, FPS, QUIT, BLACK, WHITE, RED, GREEN, B_GREEN, B_RED, YELLOW
 from game_screen import load_assets
 from game_screen import Arrow, Player, Background
 import random
 
 
+
 pygame.display.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.mixer.init()
+#pygame.mixer.init()
+
+gameDisplay = pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption('Run Run')
+clock = pygame.time.Clock()
 
 
+def button(msg,x,y,w,h,ic,ac,action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    print(click)
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac,(x,y,w,h))
+
+        if click[0] == 1 and action != None:
+            action(screen)         
+    else:
+        pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
+
+    smallText = pygame.font.SysFont("comicsansms",20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    gameDisplay.blit(textSurf, textRect)
+    
+    
+
+            
+def text_objects(text, font):
+    textSurface = font.render(text, True, WHITE)
+    return textSurface, textSurface.get_rect()
+
+     
+def quitgame(screen):
+    pygame.quit()
+    quit()
+       
+def game_intro():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        gameDisplay.fill(BLACK)
+        largeText = pygame.font.Font('freesansbold.ttf',80)
+        TextSurf, TextRect = text_objects("Run Run", largeText)
+        TextRect.center = ((WIDTH/2),(HEIGHT/2))
+        #gameDisplay.blit(TextSurf, TextRect)
+        
+        gameDisplay.blit(TextSurf, TextRect)
+        
+        button("GO!", 90,450,100,50, GREEN, B_GREEN, game_screen)
+        button("QUIT", 291,450,100,50, RED, B_RED, quitgame)
+        
+        
+                      
+        #pygame.draw.rect(gameDisplay, RED,(291,450,100,50))
+
+        pygame.display.update()
+        clock.tick(15)
+        
+        
+        
+        
+        
+        
+        
 #Fazer o background mexer
 def events():
     for event in pygame.event.get():
@@ -21,8 +90,6 @@ def events():
             pygame.quit()
             sys.exit()
             
-        
-
 arrows_list = ["arrow_green_up_img","arrow_green_down_img","arrow_green_left_img","arrow_green_right_img","arrow_red_up_img","arrow_red_down_img","arrow_red_left_img","arrow_red_right_img"]
 
 
@@ -61,7 +128,10 @@ while True:
     
 '''
 
+
 def game_screen(screen):
+
+    
     assets = load_assets(img_dir, snd_dir, fnt_dir)
 
     # Variável para o ajuste de velocidade
@@ -182,18 +252,23 @@ def game_screen(screen):
                                 back.reset()
 
                         
-#    
-#        # Desenha o score
+    
+        # Desenha o score
 #        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
 #        text_rect = text_surface.get_rect()
 #        text_rect.midtop = (WIDTH / 2,  10)
 #        screen.blit(text_surface, text_rect)
-#    
-#        # Desenha as vidas
-#        text_surface = score_font.render(chr(9829) * lives, True, RED)
-#        text_rect = text_surface.get_rect()
-#        text_rect.bottomleft = (10, HEIGHT - 10)
-#        screen.blit(text_surface, text_rect)
+##    
+        # Desenha as vidas
+        text_surface = score_font.render(chr(9829) * lives, True, RED)
+        text_rect = text_surface.get_rect()
+        text_rect.bottomleft = (10, HEIGHT - 10)
+        screen.blit(text_surface, text_rect)
 #    
 #    return QUIT
+                                
+game_intro()
+
 game_screen(screen)
+
+
