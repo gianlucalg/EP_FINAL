@@ -168,7 +168,7 @@ def game_screen(screen):
             # Processa os eventos (mouse, teclado, botão, etc).
             
             # a cada segundo, cria uma arrow.
-            if TIME % 120*FPS == 0:
+            if TIME % 100*FPS == 0:
                 img = random.choice(list(directions.keys()))
                 
                 arrow = Arrow(assets[img])
@@ -255,8 +255,8 @@ def game_screen(screen):
 #        text_rect = text_surface.get_rect()
 #        text_rect.midtop = (WIDTH / 2,  10)
 #        screen.blit(text_surface, text_rect)
-##    
-        # Desenha as vidas
+#    
+#        # Desenha as vidas
 #        text_surface = score_font.render(chr(9829) * lives, True, RED)
 #        text_rect = text_surface.get_rect()
 #        text_rect.bottomleft = (10, HEIGHT - 10)
