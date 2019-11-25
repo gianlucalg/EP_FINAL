@@ -159,6 +159,7 @@ def game_screen(screen):
 
 
 
+
     # Cria o personagem. O construtor será chamado automaticamente.
     player = Player(assets["player_img"])
     player_group = pygame.sprite.Group()
@@ -282,7 +283,11 @@ def game_screen(screen):
 #        text_rect.center = (WIDTH / 2,  HEIGHT/2)
 #        screen.blit(text_surface, text_rect)
 #    
+<<<<<<< HEAD
         # Desenha as vidas
+=======
+#        # Desenha as vidas
+>>>>>>> 844b6c65dc367e031f2bf195b0c45b30f22d6b85
 #        text_surface = score_font.render(chr(9829) * lives, True, RED)
 #        text_rect = text_surface.get_rect()
 #        text_rect.bottomleft = (10, HEIGHT - 10)
