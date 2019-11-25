@@ -1,13 +1,12 @@
 import pygame
-#import random
-#from main_game import screen
+import random
 from os import path
 from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, BLACK, YELLOW, RED, FPS, QUIT
 pygame.init()
 
 
 # Carrega todos os assets uma vez só.
-def load_assets():
+def load_assets(img_dir, snd_dir,fnt_dir = ''):
     assets = {}
     assets["player_img"] = pygame.image.load(path.join(img_dir, "player.png")).convert()
     assets["arrow_green_up_img"] = pygame.image.load(path.join(img_dir, "arrow_green_up.png")).convert()
@@ -42,7 +41,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         
         # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH -8
+        self.rect.centerx = WIDTH -60
         self.rect.bottom = HEIGHT / 2
         
         # Velocidade da nave
@@ -60,33 +59,32 @@ class Arrow(pygame.sprite.Sprite):
         self.direction = " "
 
         #Escolhe imagem do ícone da seta que vai aparecer.
-        self.image = pygame.transform.scale(img, (50, 38))
+        self.image = pygame.transform.scale(img, (50, 38)).convert_alpha()
 
         self.rect = self.image.get_rect()
         
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT / 2 - 10
         
-        
+
 class Background(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+
+    def __init__(self, img,x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('img/background.png').convert()
-        self.x = x
-        self.y = y
-        self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = self.x, self.y   
+
+        self.image = img
+        
+        self.rect = img.get_rect()
+
+        self.x0 = x
+        self.y0 = y
+
+        self.rect.top = y
+        self.rect.left = x
     
-    def update(self,cam):
-        self.rect.left = self.y + (0.2*cam.state.left)
-        self.rect.top = self.x + (0.2*cam.state.top)
+    def move(self):
+        self.rect.y += 10
+
+    def reset(self):
+        self.rect.top = -600
         
-
-
-        
-
-
-      
-
-
-

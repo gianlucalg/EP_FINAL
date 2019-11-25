@@ -25,12 +25,6 @@ def events():
 
 arrows_list = ["arrow_green_up_img","arrow_green_down_img","arrow_green_left_img","arrow_green_right_img","arrow_red_up_img","arrow_red_down_img","arrow_red_left_img","arrow_red_right_img"]
 
-all_backgrounds = pygame.sprite.Group()
-
-#for i in range((HEIGHT+HEIGHT)/HEIGHT):
-#    for j in range((WIDTH + WIDTH)/WIDTH):
-#        all_backgrounds.add(Background(HEIGHT*i,WIDTH*j))
-
 
 '''        
 #Definir o display
@@ -68,11 +62,6 @@ while True:
 '''
 
 def game_screen(screen):
-    
-    all_backgrounds.update(pygame.cam)
-
-    all_backgrounds.draw(screen)
-    
     assets = load_assets(img_dir, snd_dir, fnt_dir)
 
     # Variável para o ajuste de velocidade
@@ -80,10 +69,18 @@ def game_screen(screen):
 
     # Carrega o fundo do jogo
     background = assets["background"]
-    background_rect = background.get_rect()
+    back1 = Background(background, 0, 0)
+    back2 = Background(background, 0, -HEIGHT)
+    all_backs = pygame.sprite.Group()
+    all_backs.add(back1)
+    all_backs.add(back2)
+
+
 
     # Cria o personagem. O construtor será chamado automaticamente.
     player = Player(assets["player_img"])
+    player_group = pygame.sprite.Group()
+    player_group.add(player)
 
     directions = {"arrow_red_up_img":"down",  "arrow_red_down_img":"up", 'arrow_red_left_img':"right",
                   'arrow_red_right_img':"left", 'arrow_green_up_img':"up",'arrow_green_down_img':"down",
@@ -99,6 +96,7 @@ def game_screen(screen):
     all_arrows = pygame.sprite.Group()
 
     while state != DONE and state != ERROR:
+#    while True:
         TIME+=1
         
         # Ajusta a velocidade do jogo.
@@ -109,7 +107,6 @@ def game_screen(screen):
             
             # a cada segundo, cria uma arrow.
             if TIME % 120*FPS == 0:
-                                
                 img = random.choice(list(directions.keys()))
                 
                 arrow = Arrow(assets[img])
@@ -119,17 +116,22 @@ def game_screen(screen):
             screen.fill(BLACK)
             
             # A cada loop, redesenha o fundo e os sprites
+
+            all_backs.draw(screen)
            
-            screen.blit(background, background_rect)
+            # screen.blit(background, background_rect)
             
             # Desenha as setas na tela.    
             all_arrows.draw(screen) 
+
+            player_group.draw(screen)
             
             # Depois de desenhar tudo, inverte o display.
             pygame.display.flip()       
                 
             keys = pygame.key.get_pressed()  # verifica se alguma tecla foi clicada
             #Ajusta a velocidade do jogo.
+            acertou = False
             for event in pygame.event.get():
                     # print("OI")
                     
@@ -145,6 +147,7 @@ def game_screen(screen):
                             if event.key == pygame.K_d:
                                 if direct == "right":
                                     all_arrows.remove(arrow)
+                                    acertou = True
                                 else:
                                     state = ERROR
                                     return
@@ -152,6 +155,7 @@ def game_screen(screen):
                             if event.key == pygame.K_a:
                                 if direct == "left":
                                     all_arrows.remove(arrow)
+                                    acertou = True                                
                                 else:
                                     state = ERROR
                                     return
@@ -159,6 +163,7 @@ def game_screen(screen):
                             if event.key == pygame.K_w:
                                 if direct == "up":
                                     all_arrows.remove(arrow)
+                                    acertou = True                                
                                 else:
                                     state = ERROR
                                     return
@@ -166,9 +171,29 @@ def game_screen(screen):
                             if event.key == pygame.K_s:
                                 if direct == "down":
                                     all_arrows.remove(arrow)
+                                    acertou = True                                
                                 else:
                                     state = ERROR
                                     return
-                    
+                        for back in all_backs:
+                            if acertou:
+                                back.move()
+                            if back.rect.top > HEIGHT:
+                                back.reset()
 
+                        
+#    
+#        # Desenha o score
+#        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
+#        text_rect = text_surface.get_rect()
+#        text_rect.midtop = (WIDTH / 2,  10)
+#        screen.blit(text_surface, text_rect)
+#    
+#        # Desenha as vidas
+#        text_surface = score_font.render(chr(9829) * lives, True, RED)
+#        text_rect = text_surface.get_rect()
+#        text_rect.bottomleft = (10, HEIGHT - 10)
+#        screen.blit(text_surface, text_rect)
+#    
+    return QUIT
 game_screen(screen)
