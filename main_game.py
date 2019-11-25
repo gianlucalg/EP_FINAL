@@ -7,6 +7,7 @@ from config import img_dir, snd_dir, fnt_dir, WIDTH, HEIGHT, FPS, QUIT, BLACK, W
 from game_screen import load_assets
 from game_screen import Arrow, Player, Background
 import random
+import numpy as np
 
 
 
@@ -78,17 +79,34 @@ def game_intro():
         clock.tick(15)
         
         
-def crash():    
+def crash(SCORE = 0):  
+    
+    HIGHSCORE = np.load("SCORE.npy")
+    HIGHSCORE = np.append(HIGHSCORE, SCORE)
+    
+    if SCORE >= HIGHSCORE.max():
+        np.save("SCORE.npy", np.append(HIGHSCORE, SCORE))
+        
+        
     
     gameDisplay.fill(BLACK)
     
     largeText = pygame.font.SysFont('freesansbold.ttf',90)
+    smallText = pygame.font.SysFont('freesansbold.ttf',40)
+
     TextSurf, TextRect = text_objects("GAME OVER", largeText)
-    TextRect.center = ((WIDTH/2),(HEIGHT/2))
+    TextRect.center = ((WIDTH/2),(HEIGHT/2 - 150))
     gameDisplay.blit(TextSurf, TextRect)
-    
+
+    TextSurf, TextRect = text_objects("SCORE: " + str(SCORE), smallText)
+    TextRect.center = ((WIDTH/2),(HEIGHT/2 - 100))
     gameDisplay.blit(TextSurf, TextRect)
-    
+
+    TextSurf, TextRect = text_objects("HIGHSCORE: " + str(HIGHSCORE.max()), smallText)
+    TextRect.center = ((WIDTH/2),(HEIGHT/2 - 50))
+    gameDisplay.blit(TextSurf, TextRect)
+        
+        
 
     while True:
         
@@ -125,6 +143,8 @@ def game_screen(screen):
 
     
     assets = load_assets(img_dir, snd_dir, fnt_dir)
+    
+
 
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
@@ -152,6 +172,7 @@ def game_screen(screen):
     ERROR = 1
     DONE = 2
     TIME = 0
+    SCORE = 0
 
     state = PLAYING
     
@@ -168,13 +189,13 @@ def game_screen(screen):
             # Processa os eventos (mouse, teclado, botão, etc).
             
             # a cada segundo, cria uma arrow.
-            if TIME % 120*FPS == 0:
+            if TIME % 100*FPS == 0:
                 img = random.choice(list(directions.keys()))
                 
                 arrow = Arrow(assets[img])
                 arrow.direction = directions[img]
                 all_arrows.add(arrow)
-            
+                
             screen.fill(BLACK)
             
             # A cada loop, redesenha o fundo e os sprites
@@ -189,7 +210,9 @@ def game_screen(screen):
             player_group.draw(screen)
             
             # Depois de desenhar tudo, inverte o display.
-            pygame.display.flip()       
+            pygame.display.flip()
+            
+            
                 
             keys = pygame.key.get_pressed()  # verifica se alguma tecla foi clicada
             #Ajusta a velocidade do jogo.
@@ -212,7 +235,7 @@ def game_screen(screen):
                                     acertou = True
                                 else:
                                     state = ERROR
-                                    crash()
+                                    crash(SCORE)
                                     return
                         
                             if event.key == pygame.K_a:
@@ -221,7 +244,7 @@ def game_screen(screen):
                                     acertou = True                                
                                 else:
                                     state = ERROR
-                                    crash()
+                                    crash(SCORE)
                                     return
                         
                             if event.key == pygame.K_w:
@@ -230,7 +253,7 @@ def game_screen(screen):
                                     acertou = True                                
                                 else:
                                     state = ERROR
-                                    crash()
+                                    crash(SCORE)
                                     return
                         
                             if event.key == pygame.K_s:
@@ -239,23 +262,26 @@ def game_screen(screen):
                                     acertou = True                                
                                 else:
                                     state = ERROR
-                                    crash()
+                                    crash(SCORE)
                                     return
                                 
                         for back in all_backs:
                             if acertou:
                                 back.move()
+                                SCORE += 100
                             if back.rect.top > HEIGHT:
                                 back.reset()
 
                         
     
-        # Desenha o score
-#        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
+#        # Desenha o score
+#        smallText = pygame.font.SysFont('freesansbold.ttf',40)
+#
+#        text_surface = smallText.render("{:08d}".format(SCORE), True, YELLOW)
 #        text_rect = text_surface.get_rect()
-#        text_rect.midtop = (WIDTH / 2,  10)
+#        text_rect.center = (WIDTH / 2,  HEIGHT/2)
 #        screen.blit(text_surface, text_rect)
-##    
+#    
         # Desenha as vidas
 #        text_surface = score_font.render(chr(9829) * lives, True, RED)
 #        text_rect = text_surface.get_rect()
@@ -263,6 +289,7 @@ def game_screen(screen):
 #        screen.blit(text_surface, text_rect)
 #    
 #    return QUIT
+        
                                 
 game_intro()
 
