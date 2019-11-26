@@ -13,12 +13,14 @@ import numpy as np
 
 pygame.display.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-#pygame.mixer.init()
+pygame.mixer.init()
 
 gameDisplay = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption('Run Run')
 clock = pygame.time.Clock()
 
+musica = pygame.mixer.music.load("dreamland.wav")
+pygame.mixer.music.play(-1)
 
 def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
@@ -97,11 +99,9 @@ def crash(SCORE = 0):
     TextSurf, TextRect = text_objects("GAME OVER", largeText)
     TextRect.center = ((WIDTH/2),(HEIGHT/2 - 150))
     gameDisplay.blit(TextSurf, TextRect)
-<<<<<<< HEAD
     
     #gameDisplay.blit(TextSurf, TextRect)
     
-=======
 
     TextSurf, TextRect = text_objects("SCORE: " + str(SCORE), smallText)
     TextRect.center = ((WIDTH/2),(HEIGHT/2 - 100))
@@ -111,8 +111,7 @@ def crash(SCORE = 0):
     TextRect.center = ((WIDTH/2),(HEIGHT/2 - 50))
     gameDisplay.blit(TextSurf, TextRect)
         
-        
->>>>>>> fb5661780ec0aef98cec6f1335b597520c1f1bc5
+
 
     while True:
         
