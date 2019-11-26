@@ -87,7 +87,7 @@ def crash():
     TextRect.center = ((WIDTH/2),(HEIGHT/2))
     gameDisplay.blit(TextSurf, TextRect)
     
-    gameDisplay.blit(TextSurf, TextRect)
+    #gameDisplay.blit(TextSurf, TextRect)
     
 
     while True:
